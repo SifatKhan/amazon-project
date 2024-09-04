@@ -100,18 +100,23 @@ document.querySelectorAll('.js-update-order').forEach((updbtn) => {
       updateFromCart(updbtn.dataset.productId)
     }
     else {
-      updbtn.innerHTML = "Update";
       const inputElement = document.querySelector(`.js-input-quantity-${updbtn.dataset.productId}`)
-      inputElement.style.display = "none";
-      const quantityElement = document.querySelector(`.js-product-quantity-${updbtn.dataset.productId}`)
-      quantityElement.innerText = inputElement.value
-      quantityElement.style.display = "inline";
+      if (Number(inputElement.value) > 0) {
+        inputElement.style.display = "none";
+        updbtn.innerHTML = "Update";
+        const quantityElement = document.querySelector(`.js-product-quantity-${updbtn.dataset.productId}`)
+        quantityElement.innerText = inputElement.value
+        quantityElement.style.display = "inline";
 
-      const matchingCartItem = cart.find(cartItem => cartItem.productId == updbtn.dataset.productId)
-      if (matchingCartItem) {
-        matchingCartItem.quantity = inputElement.value
+        const matchingCartItem = cart.find(cartItem => cartItem.productId == updbtn.dataset.productId)
+        if (matchingCartItem) {
+          matchingCartItem.quantity = inputElement.value
+        }
+        saveToStorage();
       }
-      saveToStorage();
+      else {
+        alert("Quantity can not be less than 1")
+      }
     }
   })
 })
