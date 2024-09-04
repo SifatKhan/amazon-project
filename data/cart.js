@@ -10,7 +10,7 @@ if (!cart) {
         quantity: 1
     }];
 }
-function saveToStorage() {
+export function saveToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart))
 }
 
@@ -48,4 +48,12 @@ export function removeFromCart(productId) {
 
     saveToStorage();
     document.querySelector(`.js-cart-item-container-${productId}`).remove();
+}
+
+export function updateFromCart(productId) {
+    const quantityElement = document.querySelector(`.js-product-quantity-${productId}`)
+    quantityElement.style.display = "none";
+
+    const inputElement = document.querySelector(`.js-input-quantity-${productId}`)
+    inputElement.style.display = "inline";
 }
