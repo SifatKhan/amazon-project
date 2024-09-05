@@ -7,6 +7,7 @@ export function updateCartQuantity() {
   cart.forEach((item) => {
     cartQuantity += Number(item.quantity)
   })
+  console.log(cartQuantity)
   document.querySelector('.cart-quantity').innerHTML = cartQuantity;
 }
 updateCartQuantity();

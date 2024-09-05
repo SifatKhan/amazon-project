@@ -1,29 +1,16 @@
 import { cart, removeFromCart, updateFromCart, saveToStorage, updateDeliveryOption } from "../../data/cart.js";
-import { products } from "../../data/products.js";
+import { getProduct } from "../../data/products.js";
 import formatCurrency from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 export function renderOrderSummary() {
     let cartSummaryHTML = "";
     cart.forEach((cartItem) => {
         let productId = cartItem.productId
-        let matchingitem;
-
-        for (const product of products) {
-            if (productId === product.id) {
-                matchingitem = product;
-                break;
-            }
-        }
-
-        let deliveryOption;
-        const deliveryOptionId = cartItem.deliveryOptionId;
-        deliveryOptions.forEach((option) => {
-            if (deliveryOptionId === option.id) {
-                deliveryOption = option;
-            }
-        })
+        const matchingitem = getProduct(productId);
+        let deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
 
         const today = dayjs();
         const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
@@ -75,6 +62,7 @@ export function renderOrderSummary() {
     document.querySelectorAll('.js-delete-order').forEach((delbtn) => {
         delbtn.addEventListener('click', () => {
             removeFromCart(delbtn.dataset.productId)
+            renderPaymentSummary();
         })
     })
 
@@ -142,6 +130,7 @@ export function renderOrderSummary() {
             const { productId, deliveryOptionId } = element.dataset
             updateDeliveryOption(productId, deliveryOptionId);
             renderOrderSummary();
+            renderPaymentSummary();
         })
     })
 }

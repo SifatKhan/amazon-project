@@ -1,3 +1,5 @@
+import { getProduct } from "./products.js";
+
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
 if (!cart) {
@@ -48,7 +50,6 @@ export function removeFromCart(productId) {
     if (prodIndex != -1) {
         cart.splice(prodIndex, 1)
     }
-
     saveToStorage();
     document.querySelector(`.js-cart-item-container-${productId}`).remove();
 }
