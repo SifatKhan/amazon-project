@@ -5,11 +5,17 @@ import { renderPaymentSummary } from './checkout/paymentSummary.js';
 import { loadProducts, loadProductsFetch } from '../data/products.js';
 
 async function loadPage() {
-    await loadProductsFetch();
+    try {
+        await loadProductsFetch();
+    }
+    catch (error) {
+        console.log("Error: ", error)
+    }
     renderOrderSummary();
     renderPaymentSummary();
 }
 loadPage();
+
 /* Promise and Fetch */
 // loadProductsFetch().then(() => {
 //     renderOrderSummary();
@@ -18,7 +24,9 @@ loadPage();
 
 /* Promise */
 // new Promise((resolve) => {
+//     throw "It's like a raise error in python";
 //     loadProductsFetch(() => {
+//         reject(); // create an error in the future
 //         resolve();
 //     })
 // }).then(() => {
