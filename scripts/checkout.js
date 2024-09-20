@@ -4,10 +4,17 @@ import { renderPaymentSummary } from './checkout/paymentSummary.js';
 // import '../data/backend-practice.js'
 import { loadProducts, loadProductsFetch } from '../data/products.js';
 
-loadProductsFetch().then(() => {
+async function loadPage() {
+    await loadProductsFetch();
     renderOrderSummary();
     renderPaymentSummary();
-})
+}
+loadPage();
+/* Promise and Fetch */
+// loadProductsFetch().then(() => {
+//     renderOrderSummary();
+//     renderPaymentSummary();
+// })
 
 /* Promise */
 // new Promise((resolve) => {
